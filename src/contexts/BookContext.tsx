@@ -4,13 +4,11 @@ import IBook from '../types/IBook';
 
 export interface IBookContext {
     books: IBook[];
-    addBook?: (title: string, author: string) => void;
-    removeBook?: (id: string) => void;
+    addBook: (title: string, author: string) => void;
+    removeBook: (id: string) => void;
 }
 
-export const BookContext = createContext<IBookContext>({
-    books: []
-});
+export const BookContext = createContext<IBookContext>({} as IBookContext);
 
 export interface BookContextProviderProps {
     children: ReactNode
