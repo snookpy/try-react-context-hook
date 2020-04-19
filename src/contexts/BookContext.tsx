@@ -1,11 +1,10 @@
-import React, {createContext, useState, ReactNode} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, {createContext, useReducer, ReactNode} from 'react';
 import IBook from '../types/IBook';
+import { bookReducer } from '../reducers/bookReducer';
 
 export interface IBookContext {
     books: IBook[];
-    addBook: (title: string, author: string) => void;
-    removeBook: (id: string) => void;
+    dispatch: React.Dispatch<any>;
 }
 
 export const BookContext = createContext<IBookContext>({} as IBookContext);
@@ -17,20 +16,10 @@ export interface BookContextProviderProps {
 const BookContextProvider: React.SFC<BookContextProviderProps> = ({
     children
 }) => {
-    const [books, setBooks] = useState<IBook[]>([
-        {title: 'name of thw wind', author: 'patrick rothfuss', id: '1'},
-        {title: 'the final empire', author: 'brandon sanderson', id: '2'}
-    ])
-
-    const addBook = (title: string, author: string) => {
-        setBooks([...books, {title, author, id: uuidv4()}])
-    }
-    const removeBook = (id: string) =>{
-        setBooks(books.filter(book => book.id !== id))
-    }
+    const [books, dispatch] = useReducer(bookReducer, [])
 
     return (
-        <BookContext.Provider value={{books, addBook, removeBook}}>
+        <BookContext.Provider value={{books, dispatch}}>
             {children}
         </BookContext.Provider>
     )

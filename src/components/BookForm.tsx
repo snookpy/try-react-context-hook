@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { BookContext } from '../contexts/BookContext';
 import { FormEvent } from 'react';
-
+import actionType from '../types/actionTypes'
 
 export interface BookFormProps {
 
 }
 
 const BookForm: React.SFC<BookFormProps> = () => {
-    const { addBook } = React.useContext(BookContext)
+    const { dispatch } = React.useContext(BookContext)
     const [title, setTitle] = React.useState('')
     const [author, setAuthor] = React.useState('')
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        addBook(title, author);
+        dispatch({ type: actionType.ADD_BOOK, payload: { title, author } });
         setTitle('')
         setAuthor('')
     }
@@ -31,7 +31,7 @@ const BookForm: React.SFC<BookFormProps> = () => {
                 required
             />
 
-        <input type="submit" value="add book" />
+            <input type="submit" value="add book" />
         </form>
     );
 }
